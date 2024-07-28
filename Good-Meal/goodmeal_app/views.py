@@ -4,6 +4,12 @@ from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from .models import Recipe
+from .forms import RecipeForm
+from django.contrib.auth.decorators import login_required
+import requests
+from django.conf import settings
+
 # Create your views here.
 
 def goodmeal(request):
@@ -20,14 +26,6 @@ def contact(request):
         
     }
     return render(request, 'contact.html',context)
-
-def about(request):
-    context = {
-        'about_text': "Welcome to Share a Recipe"
-        
-    }
-    return render(request, 'about.html',context)
-
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -53,10 +51,48 @@ def custom_login(request):
     return render(request, 'login.html', {'form': form})
 
 def custom_logout(request):
+    print("custom_logout")
     print(request)
     if request.method == 'GET':
         logout(request)
         return redirect('home')  # Redirect to a 'home' page after logout
     return redirect('home')  # Fallback if accessed via GET
+def fetch_random_recipes():
+    api_key = settings.SPOONACULAR_API_KEY
+    url = f'https://api.spoonacular.com/recipes/random?number=5&apiKey={api_key}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        return response.json().get('recipes', [])
+    return []
+
 def home(request):
-    return render(request, 'home.html')
+    # Fetch random recipes from the API
+    random_recipes = fetch_random_recipes()
+    
+    # Fetch user-added recipes from the database
+    user_recipes = Recipe.objects.all()
+
+    return render(request, 'home.html', {
+        'random_recipes': random_recipes,
+        'user_recipes': user_recipes
+    })
+# views.py
+
+@login_required
+def add_recipe(request):
+    if request.method == 'POST':
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = RecipeForm()
+    context = {
+        'form': form,
+        'welcome_message': "Welcome to Share a Recipe"
+    }
+    return render(request, 'add_recipe.html', context)
+
+def about(request):
+    context = {'about_text': "Welcome to Good Meal! Here you can find and share delicious recipes."}
+    return render(request, 'about.html', context)

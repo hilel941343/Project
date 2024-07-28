@@ -1,0 +1,13 @@
+<!-- add_recipe.html -->
+{% extends 'base.html' %}
+
+{% block title %}Add Recipe - Good Meal{% endblock %}
+
+{% block content %}
+    <h1>{{ welcome_message }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+{% endblock %}
