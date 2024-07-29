@@ -10,6 +10,11 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
 # Create your views here.
+def index(request):
+    context = {
+        'index_text': "Welcome to Index page"
+    }
+    return render(request, 'index.html',context)
 
 def goodmeal(request):
    context = {
