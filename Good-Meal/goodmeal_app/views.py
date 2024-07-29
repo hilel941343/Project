@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from goodmeal_app.models import TaskList
+from goodmeal_app.models import Recipe
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.contrib.auth import login, logout
@@ -7,7 +7,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import Recipe
 from .forms import RecipeForm
 from django.contrib.auth.decorators import login_required
-import requests
 from django.conf import settings
 
 # Create your views here.
@@ -19,6 +18,12 @@ def goodmeal(request):
     }
    return render(request, 'goodmeal.html',context)
    
+def list_recipe(request):
+   context = {
+        'goodmeal_text': "Welcome to GoodMeal Site"
+        
+    }
+   return render(request, 'list_recipe.html',context)
 
 def contact(request):
     context = {
@@ -26,6 +31,7 @@ def contact(request):
         
     }
     return render(request, 'contact.html',context)
+
 def register(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -36,8 +42,6 @@ def register(request):
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
-# views.py
-from django.shortcuts import render
 
 def custom_login(request):
     if request.method == 'POST':
@@ -57,6 +61,7 @@ def custom_logout(request):
         logout(request)
         return redirect('home')  # Redirect to a 'home' page after logout
     return redirect('home')  # Fallback if accessed via GET
+
 def fetch_random_recipes():
     api_key = settings.SPOONACULAR_API_KEY
     url = f'https://api.spoonacular.com/recipes/random?number=5&apiKey={api_key}'
