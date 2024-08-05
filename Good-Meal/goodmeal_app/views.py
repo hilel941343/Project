@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from goodmeal_app.models import Recipe
-from django.shortcuts import render, redirect
+from goodmeal_app.forms import RecipeForm
 from .forms import RegisterForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
@@ -8,6 +8,10 @@ from .models import Recipe
 from .forms import RecipeForm
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
+from django.core.paginator import Paginator
+
 
 # Create your views here.
 def index(request):
@@ -87,22 +91,48 @@ def home(request):
         'user_recipes': user_recipes
     })
 # views.py
-
-@login_required
-def add_recipe(request):
-    if request.method == 'POST':
+def recipe_list(request):
+    if request.method == "POST":
         form = RecipeForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            messages.success(request, "New recipe added!")
+            return redirect('recipe_list')  # Redirect to refresh the page and show the new recipe
     else:
         form = RecipeForm()
-    context = {
-        'form': form,
-        'welcome_message': "Welcome to Share a Recipe"
-    }
-    return render(request, 'add_recipe.html', context)
 
-def about(request):
-    context = {'about_text': "Welcome to Good Meal! Here you can find and share delicious recipes."}
-    return render(request, 'about.html', context)
+    all_recipes = Recipe.objects.all()
+    paginator = Paginator(all_recipes, 5)
+    page = request.GET.get('pg')
+    all_recipes = paginator.get_page(page)
+    
+    return render(request, 'recipe_list.html', {'all_recipes': all_recipes, 'form': form})
+
+def delete_recipe(request, recipe_id):
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+    recipe.delete()
+    messages.success(request, "Recipe deleted!")
+    return redirect('recipe_list')
+
+def edit_recipe(request, recipe_id):
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+    if request.method == "POST":
+        form = RecipeForm(request.POST, instance=recipe)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Recipe edited!")
+            return redirect('recipe_list')
+    else:
+        form = RecipeForm(instance=recipe)
+    return render(request, 'edit.html', {'form': form})
+
+def add_recipe(request):
+    if request.method == "POST":
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Recipe added!")
+            return redirect('recipe_list')
+    else:
+        form = RecipeForm()
+    return render(request, 'add_recipe.html', {'form': form})

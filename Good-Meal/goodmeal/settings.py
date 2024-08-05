@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'goodmeal_app',
+    'crispy_forms',
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'goodmeal.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [(os.path.join(BASE_DIR, 'templates')),],
+        'DIRS': [(os.path.join(BASE_DIR, 'templates')),'gmenv/Lib/site-packages/crispy_bootstrap5/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

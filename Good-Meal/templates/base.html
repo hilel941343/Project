@@ -30,9 +30,8 @@
                    <li class="nav-item"> <a class="nav-link" href="{% url "login" %}">Login</a></li>
                    <li class="nav-item"> <a class="nav-link" href="{% url "register" %}">Register</a></li>
                 {% endif %}
-              <li class="nav-item"><a class="nav-link" href="{% url "list_recipe" %}">Recipe List</a></li>
-              <li class="nav-item"><a class="nav-link" href="{% url "add_recipe" %}">Share a Recipe</a></li>
-              <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url "about" %}">About Us</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url "recipe_list" %}">Recipe List</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url "add_recipe" %}">Add Recipe</a></li>
             </ul>
 
             <form class="d-flex">
@@ -45,7 +44,9 @@
       </nav>
 
       {% block content %}{% endblock content %}
-
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
