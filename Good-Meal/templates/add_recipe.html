@@ -6,36 +6,40 @@
 
 {% block content %}
 <div class="container">
-    <br>
-    <form method="POST">
-        {% csrf_token %}
-        <div class="row">
-            <label class="col-lg-2 col-form-label">Recipe Name</label>
-            <div class="col-lg-10">
-                {{ form.recipe }}
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <label class="col-lg-2 col-form-label">Composites</label>
-            <div class="col-lg-10">
-                {{ form.composites }}
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <label class="col-lg-2 col-form-label">Instructions</label>
-            <div class="col-lg-10">
-                {{ form.instructions }}
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-10">
-                <button type="submit" class="btn btn-primary">Add Recipe</button>
-            </div>
-        </div>
-    </form>
+  <h1>Add Recipe</h1>
+  <form method="post">
+    {% csrf_token %}
+    <div class="row mb-3">
+      <label class="col-lg-2 col-form-label">Recipe Name</label>
+      <div class="col-lg-10">
+        {{ form.recipe }}
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-lg-2 col-form-label">Ingredients</label>
+      <div class="col-lg-10">
+        {{ form.composites }}
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="col-lg-2 col-form-label">Instructions</label>
+      <div class="col-lg-10">
+        {{ form.instructions }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2"></div>
+      <div class="col-lg-10">
+        <button type="submit" class="btn btn-primary">Add Recipe</button>
+      </div>
+    </div>
+  </form>
+  {% if messages %}
+    <div class="mt-2">
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
 </div>
 {% endblock content %}

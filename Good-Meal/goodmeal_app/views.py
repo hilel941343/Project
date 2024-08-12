@@ -11,12 +11,15 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.core.paginator import Paginator
-
-
+import requests
+from bs4 import BeautifulSoup
+from django.http import HttpResponseRedirect
+from django.http import HttpResponseNotFound
 # Create your views here.
+
 def index(request):
     context = {
-        'index_text': "Welcome to Index page"
+        'index_text': "Welcome to Index page",
     }
     return render(request, 'index.html',context)
 
@@ -47,7 +50,7 @@ def register(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')  # Redirect to a 'home' page after registration
+            return redirect('index')  # Redirect to a 'home' page after registration
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
@@ -58,7 +61,7 @@ def custom_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')  # Redirect to a 'home' page after login
+            return redirect('index')  # Redirect to a 'home' page after login
     else:
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
@@ -68,28 +71,10 @@ def custom_logout(request):
     print(request)
     if request.method == 'GET':
         logout(request)
-        return redirect('home')  # Redirect to a 'home' page after logout
-    return redirect('home')  # Fallback if accessed via GET
+        return redirect('index')  # Redirect to a 'home' page after logout
+    return redirect('index')  # Fallback if accessed via GET
 
-def fetch_random_recipes():
-    api_key = settings.SPOONACULAR_API_KEY
-    url = f'https://api.spoonacular.com/recipes/random?number=5&apiKey={api_key}'
-    response = requests.get(url)
-    if response.status_code == 200:
-        return response.json().get('recipes', [])
-    return []
 
-def home(request):
-    # Fetch random recipes from the API
-    random_recipes = fetch_random_recipes()
-    
-    # Fetch user-added recipes from the database
-    user_recipes = Recipe.objects.all()
-
-    return render(request, 'home.html', {
-        'random_recipes': random_recipes,
-        'user_recipes': user_recipes
-    })
 # views.py
 def recipe_list(request):
     if request.method == "POST":
@@ -97,34 +82,33 @@ def recipe_list(request):
         if form.is_valid():
             form.save()
             messages.success(request, "New recipe added!")
-            return redirect('recipe_list')  # Redirect to refresh the page and show the new recipe
+            return redirect('recipe_list')
     else:
         form = RecipeForm()
 
     all_recipes = Recipe.objects.all()
-    paginator = Paginator(all_recipes, 5)
+    paginator = Paginator(all_recipes, 5)  # Paginate by 5 recipes per page
     page = request.GET.get('pg')
     all_recipes = paginator.get_page(page)
-    
+
     return render(request, 'recipe_list.html', {'all_recipes': all_recipes, 'form': form})
 
-def delete_recipe(request, recipe_id):
-    recipe = get_object_or_404(Recipe, pk=recipe_id)
-    recipe.delete()
-    messages.success(request, "Recipe deleted!")
-    return redirect('recipe_list')
 
-def edit_recipe(request, recipe_id):
-    recipe = get_object_or_404(Recipe, pk=recipe_id)
-    if request.method == "POST":
+
+def recipe_detail(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    return render(request, 'recipe_detail.html', {'recipe': recipe})
+
+def recipe_edit(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    if request.method == 'POST':
         form = RecipeForm(request.POST, instance=recipe)
         if form.is_valid():
             form.save()
-            messages.success(request, "Recipe edited!")
-            return redirect('recipe_list')
+            return redirect('recipe_list')  # Redirect to recipe list after successful edit
     else:
         form = RecipeForm(instance=recipe)
-    return render(request, 'edit.html', {'form': form})
+    return render(request, 'recipe_edit.html', {'form': form})
 
 def add_recipe(request):
     if request.method == "POST":
@@ -136,3 +120,15 @@ def add_recipe(request):
     else:
         form = RecipeForm()
     return render(request, 'add_recipe.html', {'form': form})
+
+def recipe_delete(request, recipe_id):
+    try:
+        recipe = Recipe.objects.get(id=recipe_id)
+    except Recipe.DoesNotExist:
+        return HttpResponseNotFound("Recipe not found")
+
+    if request.method == 'POST':
+        recipe.delete()
+        return redirect('recipe_list')  # Replace with your desired redirect URL
+
+    return render(request, 'recipe_delete.html', {'recipe': recipe})
