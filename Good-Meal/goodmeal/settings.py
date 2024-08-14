@@ -124,6 +124,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+MEDIA_ROOT = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 
 # Default primary key field type
@@ -134,4 +137,5 @@ LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'insex'
 # settings.py
 LOGIN_REDIRECT_URL = '/'
+# settings.py
 

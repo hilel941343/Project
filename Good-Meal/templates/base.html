@@ -25,7 +25,7 @@
               <li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url "index" %}">Home</a></li>
                 {% if user.is_authenticated %}
                   <p>Welcome, {{ user.username }}!</p>
-                  <li class="nav-item"> <a class="nav-link" href="{% url "logout" %}">Logout</a></li>
+                  <li class="nav-item"> <a class="nav-link" href="{% url "custom_logout" %}">Logout</a></li>
                 {% else %}
                    <li class="nav-item"> <a class="nav-link" href="{% url "login" %}">Login</a></li>
                    <li class="nav-item"> <a class="nav-link" href="{% url "register" %}">Register</a></li>
@@ -33,6 +33,7 @@
               <li class="nav-item"><a class="nav-link" href="{% url "recipe_list" %}">Recipe List</a></li>
 
               <li class="nav-item"><a class="nav-link" href="{% url "add_recipe" %}">Add Recipe</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'recommended_restaurant_list' %}">Recommended Restaurants</a></li>
             </ul>
 
             <form class="d-flex">

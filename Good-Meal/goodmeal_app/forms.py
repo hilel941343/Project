@@ -6,6 +6,14 @@ from crispy_forms.layout import Submit
 from goodmeal_app.models import Recipe
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field
+from .models import RecommendedRestaurant
+
+class RecommendedRestaurantForm(forms.ModelForm):
+    class Meta:
+        model = RecommendedRestaurant
+        fields = ['name', 'photo', 'description','restaurent_url']
+       
+
 class RecipeListHelper(FormHelper):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -30,3 +38,4 @@ class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
         fields = ['recipe', 'composites', 'instructions']
+

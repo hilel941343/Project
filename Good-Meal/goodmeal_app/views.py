@@ -15,6 +15,10 @@ import requests
 from bs4 import BeautifulSoup
 from django.http import HttpResponseRedirect
 from django.http import HttpResponseNotFound
+from .models import RecommendedRestaurant
+from .forms import RecommendedRestaurantForm
+
+
 # Create your views here.
 
 def index(request):
@@ -99,8 +103,9 @@ def recipe_detail(request, recipe_id):
     recipe = get_object_or_404(Recipe, id=recipe_id)
     return render(request, 'recipe_detail.html', {'recipe': recipe})
 
+@login_required
 def recipe_edit(request, recipe_id):
-    recipe = get_object_or_404(Recipe, id=recipe_id)
+    recipe = get_object_or_404(Recipe, id=recipe_id, created_by=request.user)  # Ensure the user is the creator
     if request.method == 'POST':
         form = RecipeForm(request.POST, instance=recipe)
         if form.is_valid():
@@ -110,25 +115,67 @@ def recipe_edit(request, recipe_id):
         form = RecipeForm(instance=recipe)
     return render(request, 'recipe_edit.html', {'form': form})
 
+@login_required
+def recipe_delete(request, recipe_id):
+    recipe = get_object_or_404(Recipe, id=recipe_id, created_by=request.user)  # Ensure the user is the creator
+    if request.method == 'POST':
+        recipe.delete()
+        return redirect('recipe_list')  # Replace with your desired redirect URL
+
+    return render(request, 'recipe_delete.html', {'recipe': recipe})
+
+
+@login_required(login_url='login')
 def add_recipe(request):
     if request.method == "POST":
         form = RecipeForm(request.POST)
         if form.is_valid():
-            form.save()
+            recipe = form.save(commit=False)
+            recipe.created_by = request.user  # Link the recipe to the logged-in user
+            recipe.save()
             messages.success(request, "Recipe added!")
             return redirect('recipe_list')
     else:
         form = RecipeForm()
     return render(request, 'add_recipe.html', {'form': form})
 
-def recipe_delete(request, recipe_id):
-    try:
-        recipe = Recipe.objects.get(id=recipe_id)
-    except Recipe.DoesNotExist:
-        return HttpResponseNotFound("Recipe not found")
+def recommended_restaurant_list(request):
+    restaurants = RecommendedRestaurant.objects.all()
+    return render(request, 'recommended_restaurant_list.html', {'restaurants': restaurants})
 
+@login_required
+@login_required
+def add_recommended_restaurant(request):
     if request.method == 'POST':
-        recipe.delete()
-        return redirect('recipe_list')  # Replace with your desired redirect URL
+        form = RecommendedRestaurantForm(request.POST, request.FILES)
+        if form.is_valid():
+            restaurant = form.save(commit=False)
+            restaurant.created_by = request.user
+            restaurant.save()
+            messages.success(request, "Recommended restaurant added successfully!")
+            return redirect('recommended_restaurant_list')
+    else:
+        form = RecommendedRestaurantForm()
+    return render(request, 'add_recommended_restaurant.html', {'form': form})
 
-    return render(request, 'recipe_delete.html', {'recipe': recipe})
+@login_required
+def edit_recommended_restaurant(request, restaurant_id):
+    restaurant = get_object_or_404(RecommendedRestaurant, id=restaurant_id, created_by=request.user)
+    if request.method == 'POST':
+        form = RecommendedRestaurantForm(request.POST, request.FILES, instance=restaurant)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Recommended restaurant updated successfully!")
+            return redirect('recommended_restaurant_list')
+    else:
+        form = RecommendedRestaurantForm(instance=restaurant)
+    return render(request, 'edit_recommended_restaurant.html', {'form': form})
+
+@login_required
+def delete_recommended_restaurant(request, restaurant_id):
+    restaurant = get_object_or_404(RecommendedRestaurant, id=restaurant_id, created_by=request.user)
+    if request.method == 'POST':
+        restaurant.delete()
+        messages.success(request, "Recommended restaurant deleted successfully!")
+        return redirect('recommended_restaurant_list')
+    return render(request, 'delete_recommended_restaurant.html', {'restaurant': restaurant})
