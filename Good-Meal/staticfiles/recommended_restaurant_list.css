@@ -1,0 +1,94 @@
+/* Add space after the "Add Recommended Restaurant" button */
+.add-button {
+    margin-bottom: 100px; /* Adjust this value as needed for the desired space */
+}
+
+
+/* Container for the restaurant items */
+.restaurant-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px; /* Increased space between each restaurant item */
+    margin-bottom: 30px; /* Add bottom margin to the container itself */
+}
+
+/* Style for restaurant items */
+.restaurant-item {
+    width: 30%; /* Adjust the width as needed */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px; /* Additional margin to ensure separation */
+}
+
+/* Style for restaurant cards */
+.restaurant-card {
+    background-color: #007bff; /* Blue background */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    color: white; /* White text for better contrast */
+    height: 100%; /* Ensures all cards take up the full height of the container */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.restaurant-card:hover {
+    transform: scale(1.05);
+}
+
+/* Style for the restaurant photo */
+.restaurant-photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* Style for the restaurant name */
+.restaurant-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: white;
+}
+
+/* Style for the restaurant description */
+.restaurant-description {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 15px;
+}
+
+/* Style for the restaurant link */
+.restaurant-link {
+    color: #ffdd57;
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Style for restaurant actions */
+.restaurant-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Style for edit and delete links */
+.edit-link, .delete-link {
+    color: #ffdd57;
+    font-size: 0.875rem;
+    text-decoration: none;
+}
+
+.edit-link:hover, .delete-link:hover {
+    text-decoration: underline;
+}

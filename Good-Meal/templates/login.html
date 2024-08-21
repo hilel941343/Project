@@ -1,10 +1,32 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
     <title>Login</title>
+    <style>
+      html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-image: url("{% static 'images/login.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        form {
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background for the form */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+    </style>
 </head>
 <body>
-    <h1>Login</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}

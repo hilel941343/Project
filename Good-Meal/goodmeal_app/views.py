@@ -140,10 +140,17 @@ def add_recipe(request):
     return render(request, 'add_recipe.html', {'form': form})
 
 def recommended_restaurant_list(request):
-    restaurants = RecommendedRestaurant.objects.all()
-    return render(request, 'recommended_restaurant_list.html', {'restaurants': restaurants})
+    if request.method == 'POST':
+        form = RecommendedRestaurantForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('recommended_restaurant_list')
+    else:
+        form = RecommendedRestaurantForm()
 
-@login_required
+    restaurants = RecommendedRestaurant.objects.all()  # Get all recommended restaurants
+    return render(request, 'recommended_restaurant_list.html', {'form': form, 'restaurants': restaurants})
+
 @login_required
 def add_recommended_restaurant(request):
     if request.method == 'POST':
@@ -152,7 +159,6 @@ def add_recommended_restaurant(request):
             restaurant = form.save(commit=False)
             restaurant.created_by = request.user
             restaurant.save()
-            messages.success(request, "Recommended restaurant added successfully!")
             return redirect('recommended_restaurant_list')
     else:
         form = RecommendedRestaurantForm()
@@ -165,7 +171,6 @@ def edit_recommended_restaurant(request, restaurant_id):
         form = RecommendedRestaurantForm(request.POST, request.FILES, instance=restaurant)
         if form.is_valid():
             form.save()
-            messages.success(request, "Recommended restaurant updated successfully!")
             return redirect('recommended_restaurant_list')
     else:
         form = RecommendedRestaurantForm(instance=restaurant)
