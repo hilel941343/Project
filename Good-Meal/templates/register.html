@@ -1,13 +1,44 @@
-{% extends 'base.html' %}
-
-{% block title %}Register{% endblock %}
-
-{% block content %}
-<h2>Register</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-{% endblock %}
-
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-image: url("{% static 'images/register.jpg' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        form {
+            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background for the form */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transform: translateX(-15px); /* Adjust this value to move the form to the left */
+        }
+        a {
+            display: block; /* Make the link take up the full width */
+            color: #0000EE; /* Link color */
+        }
+    </style>
+</head>
+<body>
+    <h2>Register</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Register</button>
+        <a href="{% url "index" %}">Back to Home</a>
+    </form>
+</body>
+</html>

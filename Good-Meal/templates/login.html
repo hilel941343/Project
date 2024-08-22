@@ -23,6 +23,12 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            text-align: center; /* Center align the content inside the form */
+        }
+        a {
+            display: block; /* Make the link take up the full width */
+            margin-top: 10px; /* Add some space between the form and the link */
+            color: #0000EE; /* Link color */
         }
     </style>
 </head>
@@ -31,7 +37,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Login</button>
+        <a href="{% url "index" %}">Back to Home</a>
     </form>
-    <a href="{% url "index" %}">Back to Home</a>
 </body>
 </html>
