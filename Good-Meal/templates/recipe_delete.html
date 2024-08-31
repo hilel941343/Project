@@ -1,14 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Delete Recipe</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Recipe - Good-Meal</title>
+    <link rel="stylesheet" href="{% static 'path/to/your/css/file.css' %}">
 </head>
 <body>
-    <h1>Are you sure you want to delete "{{ recipe.name }}"?</h1>
-    <form method="post">
-        {% csrf_token %}
-        <input type="submit" value="Delete">
-        <a href="{% url 'recipe_list' %}">Cancel</a>
-    </form>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Delete Recipe</h1>
+        <div class="alert alert-warning text-center">
+            <p>Are you sure you want to delete the recipe "<strong>{{ recipe.recipe }}</strong>"?</p>
+        </div>
+        <form method="post" class="text-center">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="{% url 'recipe_list' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
 </body>
 </html>

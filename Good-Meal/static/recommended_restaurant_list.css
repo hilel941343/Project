@@ -1,16 +1,23 @@
 /* Add space after the "Add Recommended Restaurant" button */
-.add-button {
-    margin-bottom: 100px; /* Adjust this value as needed for the desired space */
+body {
+    background-image: url('images/restaurant.jpg'); /* Replace with the correct path to your image */
+    background-size: cover; /* This makes the image cover the entire background */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    background-position: center center; /* Centers the image on the page */
+    background-attachment: fixed; /* Keeps the background image fixed during scroll */
 }
-
-
+.add-button {
+    margin-bottom: 40px;
+    background-color: #000000;
+     /* Adjusted for a more balanced look */
+}
 /* Container for the restaurant items */
 .restaurant-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 30px; /* Increased space between each restaurant item */
-    margin-bottom: 30px; /* Add bottom margin to the container itself */
+    gap: 20px; /* Adjusted space between each restaurant item */
+    margin-bottom: 40px; /* Added bottom margin to the container itself */
 }
 
 /* Style for restaurant items */
@@ -24,13 +31,13 @@
 
 /* Style for restaurant cards */
 .restaurant-card {
-    background-color: #007bff; /* Blue background */
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #000000; /* Black background for the card */
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     padding: 20px;
     text-align: center;
-    transition: transform 0.3s ease;
-    color: white; /* White text for better contrast */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #ffffff; /* White text for contrast against the black background */
     height: 100%; /* Ensures all cards take up the full height of the container */
     display: flex;
     flex-direction: column;
@@ -38,7 +45,8 @@
 }
 
 .restaurant-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Style for the restaurant photo */
@@ -52,26 +60,30 @@
 
 /* Style for the restaurant name */
 .restaurant-name {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     margin-bottom: 10px;
-    color: white;
+    color: #ffffff; /* White text for readability */
 }
 
 /* Style for the restaurant description */
 .restaurant-description {
-    color: white;
+    color: #cccccc; /* Lighter gray for description text */
     font-size: 1rem;
     margin-bottom: 15px;
 }
 
 /* Style for the restaurant link */
 .restaurant-link {
-    color: #ffdd57;
+    color: #ffdd57; /* Accent color for links */
     text-decoration: none;
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+.restaurant-link:hover {
+    text-decoration: underline;
 }
 
 /* Style for restaurant actions */
@@ -84,7 +96,7 @@
 
 /* Style for edit and delete links */
 .edit-link, .delete-link {
-    color: #ffdd57;
+    color: #ffdd57; /* Accent color for edit and delete links */
     font-size: 0.875rem;
     text-decoration: none;
 }

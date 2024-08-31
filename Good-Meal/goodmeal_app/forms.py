@@ -11,7 +11,7 @@ from .models import RecommendedRestaurant
 class RecommendedRestaurantForm(forms.ModelForm):
     class Meta:
         model = RecommendedRestaurant
-        fields = ['name', 'photo', 'description','restaurent_url']
+        fields = ['name', 'photo', 'description','restaurant_url']
        
 
 class RecipeListHelper(FormHelper):
@@ -35,7 +35,7 @@ class RecipeForm(forms.ModelForm):
         model = Recipe
         fields = '__all__'
 
+class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['recipe', 'composites', 'instructions']
-
+        fields = ['recipe', 'composites', 'instructions', 'image']

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Videos Gallery
+{% endblock %}
+
+{% block content %}
+    <h1 class="mb-4">Video Gallery</h1>
+
+    <style>
+        /* Ensures the gallery looks nice with larger videos and better spacing */
+        .video-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px; /* Adds spacing between the videos */
+        }
+
+        /* Ensures each video is bigger, and placed within a styled rectangle */
+        .video-wrapper {
+            background-color: rgba(248, 249, 250, 0.8); /* Light gray background with slight transparency */
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Slightly more pronounced shadow */
+            overflow: hidden;
+            flex: 1 1 45%; /* Makes the videos take up about 45% of the row width */
+            max-width: 45%; /* Ensures the videos don't get too wide */
+        }
+
+        .video-wrapper iframe {
+            border-radius: 10px; /* Rounded corners for the video player */
+            width: 100%; /* Ensures video takes up entire wrapper width */
+            height: 400px; /* Larger video height */
+        }
+
+        /* Adjust the spacing between rows of videos */
+        .mb-4 {
+            margin-bottom: 30px !important;
+        }
+
+        /* Heading styles */
+        h1 {
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Text shadow for better readability on background image */
+        }
+    </style>
+
+    <div class="row video-gallery">
+        <div class="video-wrapper">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/MZLMBZwWSBs" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="video-wrapper">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/5x6REIaj12k" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="video-wrapper">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/LwjOErYbjeY" allowfullscreen></iframe>
+            </div>
+        </div>
+        <div class="video-wrapper">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/Zn6dEdJyTLU" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

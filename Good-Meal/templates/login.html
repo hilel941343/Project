@@ -4,32 +4,59 @@
 <head>
     <title>Login</title>
     <style>
-      html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-image: url("{% static 'images/login.jpg' %}");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        form {
-            background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background for the form */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            text-align: center; /* Center align the content inside the form */
-        }
-        a {
-            display: block; /* Make the link take up the full width */
-            margin-top: 10px; /* Add some space between the form and the link */
-            color: #0000EE; /* Link color */
-        }
+   html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url("{% static 'images/login.jpg' %}");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background for the form */
+    padding: 60px; /* Increase padding for a larger form */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Increased shadow for more emphasis */
+    text-align: center; /* Center align the content inside the form */
+    width: 400px; /* Set a fixed width for the form */
+}
+
+form p, form label {
+    font-size: 1.25rem; /* Increase the font size of the text within the form */
+    color: #333; /* Optional: Change the color of the form text */
+}
+
+button {
+    font-size: 1.5rem; /* Increase the font size of the login button */
+    padding: 10px 20px; /* Add padding to make the button larger */
+    border-radius: 5px;
+    background-color: #4c4eaf; /* Change button background color */
+    color: white; /* Change button text color */
+    border: none; /* Remove border */
+    cursor: pointer; /* Change cursor to pointer when hovering */
+}
+
+button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+a {
+    display: block; /* Make the link take up the full width */
+    margin-top: 10px; /* Add some space between the form and the link */
+    color: #0000EE; /* Link color */
+    font-size: 1.25rem; /* Increase the font size of the link */
+}
+
+
+
     </style>
 </head>
 <body>

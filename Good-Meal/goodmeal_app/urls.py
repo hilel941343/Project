@@ -18,6 +18,6 @@ urlpatterns = [
     path('recommended-restaurants/add/', views.add_recommended_restaurant, name='add_recommended_restaurant'),
     path('recommended-restaurants/edit/<int:restaurant_id>/', views.edit_recommended_restaurant, name='edit_recommended_restaurant'),
     path('recommended-restaurants/delete/<int:restaurant_id>/', views.delete_recommended_restaurant, name='delete_recommended_restaurant'),
-
+    path('videos/', views.videos, name='videos'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

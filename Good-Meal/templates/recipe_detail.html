@@ -1,6 +1,58 @@
 {% extends "base.html" %}
+
 {% block content %}
-<h2>{{ recipe.recipe }}</h2>
-<p><strong>Composites:</strong> {{ recipe.composites }}</p>
-<p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+<div class="container">
+    <div class="recipe-detail">
+        <h2>{{ recipe.recipe }}</h2>
+        <div class="recipe-image">
+            {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.recipe }}" style="max-width: 100%; height: auto;">
+            {% else %}
+            <p>No image available</p>
+            {% endif %}
+        </div>
+        <p><strong>Composites:</strong> {{ recipe.composites }}</p>
+        <p><strong>Instructions:</strong> {{ recipe.instructions }}</p>
+    </div>
+</div>
 {% endblock content %}
+
+{% block extra_css %}
+<style>
+/* Ensures that the container stretches the full width */
+.container {
+    max-width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+/* Recipe detail section aligned to the left */
+.recipe-detail {
+    margin: 20px; /* Adjust spacing around the content */
+    text-align: left; /* Aligns text to the left */
+}
+
+.recipe-image {
+    margin-bottom: 20px; /* Space below the image */
+}
+
+.recipe-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+p {
+    margin-bottom: 10px;
+}
+
+strong {
+    font-weight: bold;
+}
+</style>
+{% endblock extra_css %}

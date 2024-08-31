@@ -17,7 +17,7 @@ from django.http import HttpResponseRedirect
 from django.http import HttpResponseNotFound
 from .models import RecommendedRestaurant
 from .forms import RecommendedRestaurantForm
-
+from django.db.models import Q
 
 # Create your views here.
 
@@ -91,7 +91,7 @@ def recipe_list(request):
         form = RecipeForm()
 
     all_recipes = Recipe.objects.all()
-    paginator = Paginator(all_recipes, 5)  # Paginate by 5 recipes per page
+    paginator = Paginator(all_recipes, 6)  # Paginate by 5 recipes per page
     page = request.GET.get('pg')
     all_recipes = paginator.get_page(page)
 
@@ -105,15 +105,17 @@ def recipe_detail(request, recipe_id):
 
 @login_required
 def recipe_edit(request, recipe_id):
-    recipe = get_object_or_404(Recipe, id=recipe_id, created_by=request.user)  # Ensure the user is the creator
-    if request.method == 'POST':
-        form = RecipeForm(request.POST, instance=recipe)
+    recipe = get_object_or_404(Recipe, id=recipe_id)
+    
+    if request.method == "POST":
+        form = RecipeForm(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
             form.save()
-            return redirect('recipe_list')  # Redirect to recipe list after successful edit
+            return redirect('recipe_list')
     else:
         form = RecipeForm(instance=recipe)
-    return render(request, 'recipe_edit.html', {'form': form})
+    
+    return render(request, 'recipe_edit.html', {'form': form, 'recipe': recipe})
 
 @login_required
 def recipe_delete(request, recipe_id):
@@ -127,16 +129,14 @@ def recipe_delete(request, recipe_id):
 
 @login_required(login_url='login')
 def add_recipe(request):
-    if request.method == "POST":
-        form = RecipeForm(request.POST)
+    if request.method == 'POST':
+        form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
-            recipe = form.save(commit=False)
-            recipe.created_by = request.user  # Link the recipe to the logged-in user
-            recipe.save()
-            messages.success(request, "Recipe added!")
-            return redirect('recipe_list')
+            form.save()
+            return redirect('recipe_list')  # Redirect to the recipe list page after saving
     else:
         form = RecipeForm()
+    
     return render(request, 'add_recipe.html', {'form': form})
 
 def recommended_restaurant_list(request):
@@ -184,3 +184,6 @@ def delete_recommended_restaurant(request, restaurant_id):
         messages.success(request, "Recommended restaurant deleted successfully!")
         return redirect('recommended_restaurant_list')
     return render(request, 'delete_recommended_restaurant.html', {'restaurant': restaurant})
+
+def videos(request):
+    return render(request, 'videos.html')
