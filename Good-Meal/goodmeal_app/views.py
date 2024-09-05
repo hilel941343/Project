@@ -125,19 +125,19 @@ def recipe_delete(request, recipe_id):
         return redirect('recipe_list')  # Replace with your desired redirect URL
 
     return render(request, 'recipe_delete.html', {'recipe': recipe})
-
-
-@login_required(login_url='login')
+@login_required
 def add_recipe(request):
     if request.method == 'POST':
         form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('recipe_list')  # Redirect to the recipe list page after saving
+            recipe = form.save(commit=False)
+            recipe.created_by = request.user
+            recipe.save()
+            return redirect('recipe_list')
     else:
         form = RecipeForm()
-    
     return render(request, 'add_recipe.html', {'form': form})
+
 
 def recommended_restaurant_list(request):
     if request.method == 'POST':
