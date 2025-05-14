@@ -40,7 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'goodmeal_app',
     'crispy_forms',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dp1jnofsb',
+    'API_KEY': '117419525438683',
+    'API_SECRET': 'LA69kfc4GfYNQzYr21uZiDG7uD4',
+}
+
+MEDIA_URL = 'https://res.cloudinary.com/dp1jnofsb/'
+
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 MIDDLEWARE = [
